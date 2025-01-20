@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3 # Ensure we're using the latest version
+        uses: actions/checkout@v3 
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1 # Ensure we're using the latest version
+        uses: docker/setup-buildx-action@v2 
 
       - name: Cache Docker layers
         uses: actions/cache@v3
@@ -32,7 +32,7 @@ jobs:
           useradd -m -r aurbuilder
           mkdir -p /etc/sudoers.d
           echo 'aurbuilder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/aurbuilder
-          chown -R aurbuilder /workspace
+          chown -R aurbuilder:aurbuilder /workspace
           sudo -u aurbuilder bash -c '
           cd /workspace && wget https://github.com/cosmic-utils/gui-scale-applet/archive/refs/tags/2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz &&
           sha256sum gui-scale-applet-2.0.0.tar.gz &&
@@ -50,7 +50,7 @@ jobs:
       - name: Test AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-          chown -R aurbuilder /workspace
+          chown -R aurbuilder:aurbuilder /workspace
           sudo -u aurbuilder bash -c '
           cd /workspace/gui-scale-applet-2.0.0 &&
           makepkg --noconfirm'"
