@@ -3,7 +3,10 @@ name = "gui-scale-applet"
 version = "2.0.0"
 edition = "2021"
 authors = ["Original Author <original.author@example.com>"]
-maintainers = ["Johnny Castaway <johnny.castaway@cybirdtech.com>"]
+maintainers = ["Johnny Castaway <Johnny.Castaway@cybirdtech.com>"]
+description = "A secure, memory-safe implementation of a Tailscale GUI management applet for the System76 COSMIC desktop environment."
+repository = "https://github.com/pop-os/gui-scale-applet"
+license = "BSD-3-Clause"
 
 [dependencies]
 rust-embed = "8.0.0"
