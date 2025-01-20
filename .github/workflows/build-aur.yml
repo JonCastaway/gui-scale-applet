@@ -1,0 +1,31 @@
+name: Build AUR Package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+      
+      - name: Build AUR Package
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux/base:latest /bin/bash -c "
+          pacman -Sy --noconfirm base-devel fakeroot
+          cd path/to/your/PKGBUILD
+          makepkg -si --noconfirm"
+      
+      - name: Test AUR Package
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux/base:latest /bin/bash -c "
+          cd path/to/your/PKGBUILD
+          makepkg --noconfirm"
