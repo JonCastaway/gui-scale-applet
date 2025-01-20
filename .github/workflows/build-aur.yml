@@ -20,6 +20,6 @@ jobs:
       - name: Calculate SHA-256 checksum
         run: |
           cd ${{ github.workspace }}
-          wget https://github.com/pop-os/gui-scale-applet/archive/v2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz
+          wget https://github.com/cosmic-utils/gui-scale-applet/archive/refs/tags/2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz
           sha256sum gui-scale-applet-2.0.0.tar.gz
         shell: bash
