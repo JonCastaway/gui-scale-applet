@@ -38,6 +38,13 @@ jobs:
       - name: Build AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c '
-            chown -R aurbuilder:aurbuilder /workspace && \
+            chown -R aurbuilder /workspace && \
             sudo -u aurbuilder bash -c "makepkg -si --noconfirm"'
+        shell: bash
+
+      - name: Test AUR Package
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c '
+            chown -R aurbuilder /workspace && \
+            sudo -u aurbuilder bash -c "makepkg --noconfirm"'
         shell: bash
