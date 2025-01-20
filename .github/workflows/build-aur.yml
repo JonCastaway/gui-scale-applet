@@ -31,6 +31,7 @@ jobs:
           pacman -Sy --noconfirm fakeroot wget sudo
           useradd -m -r -s /bin/bash aurbuilder
           echo 'aurbuilder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/aurbuilder
+          mkdir -p /workspace/build
           chown -R aurbuilder:aurbuilder /workspace/build"
         shell: bash
         
