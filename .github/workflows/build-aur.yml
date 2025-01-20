@@ -6,6 +6,7 @@ on:
       - main
   pull_request:
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,14 +41,13 @@ jobs:
             sudo -u aurbuilder bash -c "tar -xzf gui-scale-applet-2.0.0.tar.gz -C /workspace"'
         shell: bash
 
-      - name: Build AUR Package
+      - name: Build and Test AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c '
-            sudo -u aurbuilder bash -c "cd /workspace/gui-scale-applet-2.0.0 && makepkg -si --noconfirm"'
-        shell: bash
-
-      - name: Test AUR Package
-        run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c '
-            chown -R aurbuilder /workspace && sudo -u aurbuilder bash -c "cd /workspace/gui-scale-applet-2.0.0 && makepkg --noconfirm"'
+            useradd -m -r aurbuilder && \
+            mkdir -p /etc/sudoers.d && \
+            echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder && \
+            chown -R aurbuilder:aurbuilder /workspace && \
+            sudo -u aurbuilder bash -c "cd /workspace/gui-scale-applet-2.0.0 && makepkg -si --noconfirm" && \
+            sudo -u aurbuilder bash -c "cd /workspace/gui-scale-applet-2.0.0 && makepkg --noconfirm"'
         shell: bash
