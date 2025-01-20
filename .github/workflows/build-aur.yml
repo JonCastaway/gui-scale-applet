@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest[_{{{CITATION{{{_2{archlinux-docker/README.md at master - GitHub](https://github.com/archlinux/archlinux-docker/blob/master/README.md)[_{{{CITATION{{{_2{archlinux-docker/README.md at master - GitHub](https://github.com/archlinux/archlinux-docker/blob/master/README.md)
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -22,13 +22,10 @@ jobs:
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:latest /bin/bash -c "
           pacman -Sy --noconfirm base-devel fakeroot
           cd path/to/your/PKGBUILD
-          makepkg -si --noconfirm"[_{{{CITATION{{{_3{GitHub - archlinux/archlinux-docker: Docker Base Image for Arch Linux ...](https://github.com/archlinux/archlinux-docker)
+          makepkg -si --noconfirm"
       
       - name: Test AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:latest /bin/bash -c "
           cd path/to/your/PKGBUILD
-          makepkg --noconfirm"[_{{{CITATION{{{_3{GitHub - archlinux/archlinux-docker: Docker Base Image for Arch Linux ...](https://github.com/archlinux/archlinux-docker)
-```[_{{{CITATION{{{_3{GitHub - archlinux/archlinux-docker: Docker Base Image for Arch Linux ...](https://github.com/archlinux/archlinux-docker)
-
-This should resolve the image retrieval issue[_{{{CITATION{{{_3{GitHub - archlinux/archlinux-docker: Docker Base Image for Arch Linux ...](https://github.com/archlinux/archlinux-docker). Give it a try and let me know how it goes! If you face any other issues, let’s work through them together. 😊
+          makepkg --noconfirm"
