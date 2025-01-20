@@ -27,34 +27,26 @@ jobs:
 
       - name: Prepare Build Environment
         run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            pacman -Sy --noconfirm fakeroot wget sudo"
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            useradd -m -r aurbuilder"
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            mkdir -p /etc/sudoers.d"
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            echo 'aurbuilder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/aurbuilder"
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            mkdir -p /workspace/build"
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            chown -R aurbuilder:aurbuilder /workspace"
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            sudo -u aurbuilder bash -c 'cd /workspace && wget https://github.com/cosmic-utils/gui-scale-applet/archive/refs/tags/2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz'"
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            sha256sum gui-scale-applet-2.0.0.tar.gz"
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            sudo -u aurbuilder bash -c 'tar -xzf gui-scale-applet-2.0.0.tar.gz -C /workspace'"
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c '
+            pacman -Sy --noconfirm fakeroot wget sudo && \
+            useradd -m -r aurbuilder && \
+            mkdir -p /etc/sudoers.d && \
+            echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder && \
+            mkdir -p /workspace/build && \
+            chown -R aurbuilder:aurbuilder /workspace && \
+            sudo -u aurbuilder bash -c "cd /workspace && wget https://github.com/cosmic-utils/gui-scale-applet/archive/refs/tags/2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz" && \
+            sha256sum gui-scale-applet-2.0.0.tar.gz && \
+            sudo -u aurbuilder bash -c "tar -xzf gui-scale-applet-2.0.0.tar.gz -C /workspace"'
         shell: bash
 
       - name: Build AUR Package
         run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            sudo -u aurbuilder bash -c 'cd /workspace/gui-scale-applet-2.0.0 && makepkg -si --noconfirm'"
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c '
+            sudo -u aurbuilder bash -c "cd /workspace/gui-scale-applet-2.0.0 && makepkg -si --noconfirm"'
         shell: bash
 
       - name: Test AUR Package
         run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            chown -R aurbuilder /workspace && sudo -u aurbuilder bash -c 'cd /workspace/gui-scale-applet-2.0.0 && makepkg --noconfirm'"
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c '
+            chown -R aurbuilder /workspace && sudo -u aurbuilder bash -c "cd /workspace/gui-scale-applet-2.0.0 && makepkg --noconfirm"'
         shell: bash
