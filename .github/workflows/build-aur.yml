@@ -41,16 +41,11 @@ jobs:
       - name: Build AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            sudo -u aurbuilder bash -c '
-            cd /workspace/gui-scale-applet-2.0.0 && \
-            makepkg -si --noconfirm'"
+            sudo -u aurbuilder bash -c 'cd /workspace/gui-scale-applet-2.0.0 && makepkg -si --noconfirm'"
         shell: bash
 
       - name: Test AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-            chown -R aurbuilder /workspace && \
-            sudo -u aurbuilder bash -c '
-            cd /workspace/gui-scale-applet-2.0.0 && \
-            makepkg --noconfirm'"
+            chown -R aurbuilder /workspace && sudo -u aurbuilder bash -c 'cd /workspace/gui-scale-applet-2.0.0 && makepkg --noconfirm'"
         shell: bash
