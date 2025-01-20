@@ -3,7 +3,7 @@ name: Build and Test AUR Package
 on:
   push:
     branches:
-      - main
+      - main  # Adjust this if your main branch is named differently
   pull_request:
 
 jobs:
@@ -21,13 +21,10 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:latest /bin/bash -c "
           pacman -Sy --noconfirm base-devel fakeroot sudo wget
-          groupadd --gid \$(id -g) aurbuilder
-          useradd --uid \$(id -u) --gid \$(id -g) --create-home aurbuilder
-          echo '%aurbuilder ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-          sudo -u aurbuilder bash -c 'cd . && wget https://github.com/cosmic-utils/gui-scale-applet/archive/refs/tags/2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz && sha256sum gui-scale-applet-2.0.0.tar.gz && makepkg -si --noconfirm'"
+          cd /workspace && wget https://github.com/cosmic-utils/gui-scale-applet/archive/refs/tags/2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz && sha256sum gui-scale-applet-2.0.0.tar.gz
+          cd /workspace && makepkg -si --noconfirm"
       
       - name: Test AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:latest /bin/bash -c "
-          echo '%aurbuilder ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-          sudo -u aurbuilder bash -c 'cd . && makepkg --noconfirm'"
+          cd /workspace && makepkg --noconfirm"
