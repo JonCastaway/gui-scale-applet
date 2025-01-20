@@ -26,25 +26,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-docker-
 
-      - name: Prepare Build Environment
+      - name: Prepare, Build and Test AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c '
             pacman -Sy --noconfirm fakeroot wget sudo && \
             useradd -m -r aurbuilder && \
             mkdir -p /etc/sudoers.d && \
-            echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder'
-        shell: bash
-
-      - name: Build AUR Package
-        run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c '
+            echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder && \
+            usermod -aG wheel aurbuilder && \
             chown -R aurbuilder /workspace && \
-            sudo -u aurbuilder bash -c "makepkg -si --noconfirm"'
-        shell: bash
-
-      - name: Test AUR Package
-        run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c '
-            chown -R aurbuilder /workspace && \
+            sudo -u aurbuilder bash -c "makepkg -si --noconfirm" && \
             sudo -u aurbuilder bash -c "makepkg --noconfirm"'
         shell: bash
