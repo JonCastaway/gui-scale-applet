@@ -35,9 +35,9 @@ jobs:
             mkdir -p /workspace/build && \
             chown -R aurbuilder:aurbuilder /workspace && \
             cd /workspace && \
-            sudo -u aurbuilder wget https://github.com/cosmic-utils/gui-scale-applet/archive/refs/tags/2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz && \
+            sudo -u aurbuilder bash -c "wget https://github.com/cosmic-utils/gui-scale-applet/archive/refs/tags/2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz" && \
             sha256sum gui-scale-applet-2.0.0.tar.gz && \
-            sudo -u aurbuilder tar -xzf gui-scale-applet-2.0.0.tar.gz -C /workspace'
+            sudo -u aurbuilder bash -c "tar -xzf gui-scale-applet-2.0.0.tar.gz -C /workspace"'
         shell: bash
 
       - name: Build AUR Package
