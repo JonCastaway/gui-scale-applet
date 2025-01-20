@@ -35,10 +35,9 @@ jobs:
             echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder && \
             mkdir -p /workspace/build && \
             chown -R aurbuilder:aurbuilder /workspace && \
-            cd /workspace && \
-            sudo -u aurbuilder bash -c "wget https://github.com/cosmic-utils/gui-scale-applet/archive/refs/tags/2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz" && \
+            wget https://github.com/cosmic-utils/gui-scale-applet/archive/refs/tags/2.0.0.tar.gz -O gui-scale-applet-2.0.0.tar.gz && \
             sha256sum gui-scale-applet-2.0.0.tar.gz && \
-            sudo -u aurbuilder bash -c "tar -xzf gui-scale-applet-2.0.0.tar.gz -C /workspace"'
+            tar -xzf gui-scale-applet-2.0.0.tar.gz -C /workspace'
         shell: bash
 
       - name: Build and Test AUR Package
