@@ -9,11 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-  
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3 # Ensure we're using the latest version
-
+      
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2 # Ensure we're using the latest version
 
@@ -21,22 +21,10 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
+          key: ${{ runner.os }}-docker-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-docker-
 
-      - name: Build Docker Image
-        run: |
-          docker buildx create --name mybuilder
-          docker buildx use mybuilder
-          docker buildx build \
-            --cache-from type=local,src=/tmp/.buildx-cache \
-            --cache-to type=local,dest=/tmp/.buildx-cache-new \
-            -t myimage .
-          docker buildx rm mybuilder
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-        shell: bash
-      
       - name: Build AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
