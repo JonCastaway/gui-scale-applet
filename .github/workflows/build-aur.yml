@@ -35,6 +35,6 @@ jobs:
             echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder && \
             usermod -aG wheel aurbuilder && \
             chown -R aurbuilder /workspace && \
-            sudo -u aurbuilder bash -c "makepkg -si --noconfirm" && \
-            sudo -u aurbuilder bash -c "makepkg --noconfirm"'
+            sudo -u aurbuilder bash -c "makepkg -si --noconfirm -f" && \
+            sudo -u aurbuilder bash -c "makepkg --noconfirm -f"'
         shell: bash
