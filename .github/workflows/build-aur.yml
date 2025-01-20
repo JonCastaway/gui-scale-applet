@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3 # Ensure we're using the latest version
+        uses: actions/checkout@v3 # Using latest version
       
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2 # Ensure we're using the latest version
+        uses: docker/setup-buildx-action@v2 # Using latest version
 
       - name: Cache Docker layers
         uses: actions/cache@v3
@@ -28,13 +28,14 @@ jobs:
       - name: Prepare Build Environment
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
-          pacman -Sy --noconfirm fakeroot wget sudo
-          useradd -m -r -s /bin/bash aurbuilder
-          echo 'aurbuilder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/aurbuilder
-          mkdir -p /workspace/build
+          pacman -Sy --noconfirm fakeroot wget sudo &&
+          useradd -m -r -s /bin/bash aurbuilder &&
+          mkdir -p /etc/sudoers.d &&
+          echo 'aurbuilder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/aurbuilder &&
+          mkdir -p /workspace/build &&
           chown -R aurbuilder:aurbuilder /workspace/build"
         shell: bash
-        
+
       - name: Build AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
@@ -46,7 +47,7 @@ jobs:
           cd /workspace/gui-scale-applet-2.0.0 &&
           makepkg -si --noconfirm'"
         shell: bash
-        
+
       - name: Test AUR Package
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:base-devel /bin/bash -c "
