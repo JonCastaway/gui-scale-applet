@@ -30,7 +30,7 @@ The applet implements a layered security approach:
     - No information leakage
 
 ## Dependencies
-You must first have Tailscale installed and then run:
+You must first have Tailscale installed and then run: 
 sudo tailscale set --operator=$USER
 This makes it where the applet doesn't need sudo (root) to do its job.
 
@@ -40,18 +40,19 @@ This makes it where the applet doesn't need sudo (root) to do its job.
 
 ## Installation
 ### Arch Linux
-1. Install from AUR: `gui-scale-applet`
-2. Alternatively, use an AUR helper: `yay -S gui-scale-applet`
-
+~~1. Install from AUR: `gui-scale-applet`~~
+~~2. Alternatively, use an AUR helper: `yay -S gui-scale-applet`~~
+### Temporary Testing Installation (Arch Linux)
+Verify Installation Locally
+1. Install the package: `pacman -U gui-scale-applet*.pkg.tar.zst`
+2. Check installation: `pacman -Q gui-scale-applet`
 ### Fedora/Fedora based distros
 sudo dnf copr enable bhh32/gui-scale-applet
 sudo dnf update --refresh
 sudo dnf install -y gui-scale-applet
-
 ### Debian/Ubuntu (including Pop!OS) based Distros
 1. Download deb package from releases section.
 2. Install manually.
-
 ### Other
 git clone https://github.com/cosmic-utils/gui-scale-applet.git
 cd gui-scale-applet
