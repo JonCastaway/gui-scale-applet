@@ -2,6 +2,8 @@
 name = "gui-scale-applet"
 version = "2.0.0"
 edition = "2021"
+authors = ["Original Author <original.author@example.com>"]
+maintainers = ["Johnny Castaway <johnny.castaway@cybirdtech.com>"]
 
 [dependencies]
 rust-embed = "8.0.0"
