@@ -1,4 +1,4 @@
-# GUI Scale COSMIC Desktop Applet
+# GUI Scale COSMIC Desktop Applet [AUR]
 
 ## About
 A secure, memory-safe implementation of a Tailscale GUI management applet for the System76 COSMIC desktop environment. This project demonstrates secure systems programming practices while providing essential functionality for Tailscale network (tailnet) management.
